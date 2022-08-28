@@ -1,0 +1,61 @@
+--Exercise 1: Accessing Multiple Tables with Sub-Queries
+--1.Problem:Retrieve only the EMPLOYEES records that 
+--correspond to jobs in the JOBS table.
+SELECT * FROM EMPLOYEES 
+WHERE JOB_ID IN (
+SELECT JOB_IDENT FROM JOBS);
+
+--2.Problem:Retrieve only the list of employees whose 
+--JOB_TITLE is Jr. Designer.
+SELECT * FROM EMPLOYEES E, JOBS J 
+WHERE E.JOB_ID = J.JOB_IDENT 
+AND J.JOB_TITLE = 'Jr. Designer';
+
+SELECT * FROM EMPLOYEES 
+WHERE JOB_ID IN(
+SELECT JOB_IDENT FROM JOBS 
+WHERE JOB_TITLE = 'Jr. Designer');
+
+--3.Problem:Retrieve JOB information and who earn more 
+--than $70,000.
+select * from jobs 
+where job_ident in(
+select job_id from employees 
+where salary > 70000);
+
+--4.Problem:Retrieve JOB information and whose birth 
+--year is after 1976.
+SELECT * FROM JOBS 
+WHERE JOB_IDENT IN(
+SELECT JOB_ID FROM EMPLOYEES 
+WHERE YEAR(B_DATE) > 1976);
+
+--5.Problem:Retrieve JOB information for female employees 
+--whose birth year is after 1976.
+SELECT * FROM JOBS 
+WHERE JOB_IDENT IN(
+SELECT JOB_ID FROM EMPLOYEES 
+WHERE YEAR(B_DATE) > 1976 AND SEX ='F');
+
+--Exercise 2: Accessing Multiple Tables with Implicit Joins
+--1.Problem:Perform an implicit cartesian/cross join 
+--between EMPLOYEES and JOBS tables.
+SELECT * FROM EMPLOYEES, JOBS;
+
+--2.Problem:Retrieve only the EMPLOYEES records that 
+--correspond to jobs in the JOBS table.
+SELECT * FROM EMPLOYEES E, JOBS J
+WHERE E.JOB_ID = J.JOB_IDENT;
+
+--4.Problem:Redo the previous query, but retrieve only 
+--the Employee ID, Employee Name and Job Title.
+SELECT EMP_ID, F_NAME, L_NAME, JOB_TITLE
+FROM EMPLOYEES E, JOBS J 
+WHERE E.JOB_ID = J.JOB_IDENT;
+
+--5.Problem:Redo the previous query, but specify the 
+--fully qualified column names with aliases in the 
+--SELECT clause.
+SELECT E.EMP_ID, E.F_NAME, E.L_NAME, J.JOB_TITLE
+FROM EMPLOYEES E, JOBS J 
+WHERE E.JOB_ID = J.JOB_IDENT;
